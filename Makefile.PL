@@ -9,6 +9,7 @@ requires 'LWP::UserAgent';
 requires 'Class::Accessor';
 requires 'parent';
 requires 'DBIx::Class';
+requires 'DBD::Pg';
 
 build_requires 'Test::More';
 
