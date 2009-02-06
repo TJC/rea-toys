@@ -8,6 +8,7 @@ requires 'XML::LibXML';
 requires 'LWP::UserAgent';
 requires 'Class::Accessor';
 requires 'parent';
+requires 'KinoSearch';
 requires 'DBIx::Class';
 requires 'DBD::Pg';
 
