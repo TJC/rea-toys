@@ -29,12 +29,17 @@ sub update_results {
         my ($id) = $prop->{id} =~ /(\d+)/;
         next unless $id;
         $prop->{id} = $id; # cleanse that ID! ;)
-        my $obj = $self->resultset('Properties')->update_or_create(
-            {
-                %$prop,
-                %$globals
-            }
-        );
+        eval {
+            my $obj = $self->resultset('Properties')->update_or_create(
+                {
+                    %$prop,
+                    %$globals
+                }
+            );
+        };
+        if ($@) {
+            warn "Failed to update id $id: $@\n";
+        }
     }
 }
 
