@@ -37,4 +37,16 @@ sub sqlt_deploy_hook {
     );
 }
 
+=head2 make_url
+
+Constructs a URL that will take you to the realestate.com.au web page for this
+property.
+
+=cut
+
+sub make_url {
+  my $self = shift;
+  return 'http://www.realestate.com.au/' . $self->id;
+}
+
 1;
