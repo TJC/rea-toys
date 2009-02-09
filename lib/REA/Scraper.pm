@@ -104,6 +104,29 @@ sub suburb {
     $self->{_globals}->{suburb} = uc($1);
 }
 
+=head2 proptype
+
+Sets the property type - 'residential' or 'rental' are current valid options.
+
+=cut
+
+{
+    my %proptype_to_param = (
+        'residential' => 'res',
+        'rental' => 'ren',
+    );
+
+    sub proptype {
+        my ($self, $proptype) = @_;
+        unless (exists $proptype_to_param{$proptype}) {
+            die("Invalid property type: $proptype");
+        }
+
+        $self->{_params}->{t} = $proptype_to_param{$proptype};
+        $self->{_globals}->{proptype} = $proptype;
+    }
+}
+
 =head2 price_min
 
 Set minimum price, in whole dollars.
