@@ -76,6 +76,17 @@ sub new {
     return $self;
 }
 
+=head2 limit
+
+Set the maximum number of properties to fetch.
+
+=cut
+
+sub limit {
+    my ($self, $n) = @_;
+    $self->{_params}->{p} = $n;
+}
+
 =head2 postcode
 
 Sets the postcode of the area to search. Mutually exclusive with suburb().
