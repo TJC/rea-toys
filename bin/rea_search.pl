@@ -17,7 +17,10 @@ GetOptions(
 my $query = join(' ', @ARGV);
 warn "Searching for: $query\n";
 
-my $storage = REA::Storage->connect("dbi:Pg:dbname=$dbname") or die;
+my $storage = REA::Storage->connect(
+    "dbi:Pg:dbname=$dbname", undef, undef,
+    { pg_enable_utf8 => 1 }
+) or die;
 
 my $searcher = REA::Searcher->new;
 my $results = $searcher->find( query => $query );

@@ -4,7 +4,7 @@ name     'REA';
 all_from 'lib/REA.pm';
 author   'Toby Corkindale <tjc@cpan.org>';
 
-requires 'XML::LibXML';
+requires 'HTML::TreeBuilder::XPath';
 requires 'LWP::UserAgent';
 requires 'Class::Accessor';
 requires 'parent';

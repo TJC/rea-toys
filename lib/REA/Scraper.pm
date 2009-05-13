@@ -2,10 +2,11 @@ package REA::Scraper;
 use warnings;
 use strict;
 use feature ':5.10';
-use XML::LibXML;
+use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use File::Slurp qw(slurp);
 use Carp qw(croak carp);
+use Encode;
 use base 'Class::Accessor';
 __PACKAGE__->mk_accessors(qw(storage _response));
 
@@ -201,23 +202,17 @@ Parse the returned HTML and then scrape results from it..
 sub _parse_html {
     my ($self) = @_;
 
-    my $parser = XML::LibXML->new;
-    my $doc;
+    my $doc = HTML::TreeBuilder::XPath->new;
     eval {
-        $doc = $parser->parse_html_string(
-            $self->_response,
-            {
-                recover => 1,
-                suppress_errors => 1,
-            }
-        );
+        $doc->parse_content( $self->_response );
     };
     if ($@) {
         die "Failed to parse HTML, errors were: $@\n";
     }
 
-    my $root = $doc->documentElement;
-    return $self->_locate_results($root);
+    my $results = $self->_locate_results($doc);
+    $doc->delete; # Apparently important to call for HTML::TreeBuilder
+    return $results;
 }
 
 =head2 _locate_results
@@ -279,7 +274,8 @@ sub _get_content {
         die("Failed to get REA content: " . $response->status_line . "\n");
     }
     warn "Response size: " . length($response->content) . "\n";
-    $self->_response($response->content);
+    my $content = decode('UTF-8', $response->content, Encode::FB_XMLCREF);
+    $self->_response($content);
 }
 
 =head2 _make_search_url

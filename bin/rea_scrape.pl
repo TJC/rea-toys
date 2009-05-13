@@ -20,7 +20,10 @@ GetOptions(
 );
 pod2usage({ verbose => 2}) unless ($postcode or $suburb);
 
-my $storage = REA::Storage->connect("dbi:Pg:dbname=$dbname") or die;
+my $storage = REA::Storage->connect(
+    "dbi:Pg:dbname=$dbname", undef, undef,
+    { pg_enable_utf8 => 1 }
+) or die;
 
 my $scraper = REA::Scraper->new( storage => $storage );
 

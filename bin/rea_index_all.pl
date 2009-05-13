@@ -14,7 +14,10 @@ GetOptions(
     'db=s' => \$dbname,
 );
 
-my $storage = REA::Storage->connect("dbi:Pg:dbname=$dbname") or die;
+my $storage = REA::Storage->connect(
+    "dbi:Pg:dbname=$dbname", undef, undef,
+    { pg_enable_utf8 => 1 }
+) or die;
 
 my $indexer = REA::Indexer->new( create => 1 );
 

@@ -13,8 +13,10 @@ my $dbname = shift @ARGV;
 
 system('createdb', '--encoding=utf8', $dbname);
 
-my $schema = REA::Storage->connect("dbi:Pg:dbname=$dbname")
-    or die;
+my $schema = REA::Storage->connect(
+    "dbi:Pg:dbname=$dbname", undef, undef,
+    { pg_enable_utf8 => 1 }
+) or die;
 
 $schema->deploy;
 
